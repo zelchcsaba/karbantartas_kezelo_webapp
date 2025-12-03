@@ -1,0 +1,125 @@
+/* Külső konténer (háttér és méretezés) */
+.service-list {
+    width: 70%;
+    background: var(--bg);
+    padding: 20px;
+    border-radius: 12px;
+    color: var(--text);
+    margin-bottom: 30px;
+}
+
+/* Cím */
+.service-list h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+/* Táblázat konténer */
+.table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* Alap sor stílus – 5 oszlopos grid */
+.table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+    padding: 10px 15px;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Fejléc sor */
+.table-header {
+    background: var(--table-header-bg);
+    font-weight: bold;
+}
+
+/* Normál sor */
+.table-row:not(.table-header) {
+    background: var(--table-row-bg);
+}
+
+/* Utolsó sor */
+.table-row:last-child {
+    border-bottom: none;
+}
+
+/* Cellák alap stílusa */
+.cell {
+    text-align: left;
+    padding: 4px 0;
+    font-size: 1.4rem;
+}
+
+
+
+/* 900px alatt váltson stacked card kinézetre */
+@media (max-width: 900px) {
+
+    /* A fejlécet eltüntetjük → helyette a sorok saját labelt kapnak */
+    .table-header {
+        display: none;
+    }
+
+    /* Sorok egymás alatt, full width */
+    .table-row {
+        grid-template-columns: 1fr;
+        background: var(--table-row-bg);
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        border: 1px solid var(--table-row-border);
+    }
+
+    /* Cellák függőlegesen listába rendezve */
+    .cell {
+        font-size: 1.3rem;
+        padding: 6px 0;
+    }
+
+    /* A cellák elé címkék kerülnek automatikusan */
+    .cell:nth-child(1)::before {
+        content: "Dátum: ";
+        font-weight: bold;
+        color: var(--text-muted);
+    }
+    .cell:nth-child(2)::before {
+        content: "Típus: ";
+        font-weight: bold;
+        color: var(--text-muted);
+    }
+    .cell:nth-child(3)::before {
+        content: "Leírás: ";
+        font-weight: bold;
+        color: var(--text-muted);
+    }
+    .cell:nth-child(4)::before {
+        content: "Kilométer: ";
+        font-weight: bold;
+        color: var(--text-muted);
+    }
+    .cell:nth-child(5)::before {
+        content: "Költség: ";
+        font-weight: bold;
+        color: var(--text-muted);
+    }
+}
+
+/* 600px alatt még kompaktabb nézet */
+@media (max-width: 600px) {
+    .service-list {
+        width: 70%;
+    }
+
+    .cell {
+        font-size: 1.2rem;
+    }
+
+    .table-row {
+        padding: 12px;
+    }
+}

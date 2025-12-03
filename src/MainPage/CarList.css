@@ -1,0 +1,35 @@
+/* Lista fokontenere */
+.car-list-container {
+  padding: clamp(20px, 5vw, 50px);
+}
+
+/* Grid elrendezes */
+.car-grid {
+  display: grid;
+  gap: clamp(20px, 3vw, 35px);
+  grid-template-columns: 1fr;
+  align-items: stretch;
+}
+
+/* Ket oszlopos grid tableteknel */
+@media (min-width: 920px) {
+  .car-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.no-cars {
+  padding: 40px;
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+
+/* Harom oszlopos grid asztali nezetnel */
+@media (min-width: 1440px) {
+  .car-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

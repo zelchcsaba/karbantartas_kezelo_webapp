@@ -1,0 +1,142 @@
+/* Navigacios sor fokontenere */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--navbar-bg);
+  color: var(--text);
+}
+
+/* Bal oldali gombok kontenere */
+.navbar-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* Jobb oldali elemek kontenere */
+.navbar-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Autok gomb */
+.home {
+  background-color: var(--navbar-button-hover);
+  color: var(--text);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+}
+
+/* Statisztika gomb */
+.chart {
+  background-color: var(--navbar-button-color);
+  color: var(--text);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Uj auto gomb */
+.new-car {
+  color: var(--text);
+  background-color: var(--navbar-button-color);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Statisztika es uj auto hover */
+.chart:hover,
+.new-car:hover {
+  background-color: var(--navbar-button-hover);
+}
+
+/* Kereses mezo */
+.navbar-search {
+  display: none;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 8px;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text);
+  font-size: 0.9rem;
+  transition: all 0.25s ease;
+}
+
+/* Kereses placeholder */
+.navbar-search::placeholder {
+  color: var(--text-muted);
+}
+
+/* Kereses hover */
+.navbar-search:hover {
+  background: var(--input-bg-hover);
+}
+
+/* Kereses fokusz */
+.navbar-search:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+  font-size: 0.9rem;
+}
+
+/* Tema valtoztato gomb */
+.theme-toggle {
+  background: var(--button-bg);
+  color: var(--text);
+  border: none;
+  padding: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px; 
+  font-size: 1.35rem;
+
+  cursor: pointer;
+  transition: 
+    background-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+  
+  box-shadow: 0 3px 10px var(--box-shadow);
+}
+
+.theme-toggle:hover {
+  background-color: var(--button-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--box-shadow);
+}
+
+.theme-icon {
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(20deg);
+}
+
+/* Nagyobb meretben betumeret noveles */
+@media (min-width: 920px) {
+  .navbar-left,
+  .new-car, .home, .chart {
+    font-size: 1.25rem;
+  }
+  .navbar-search {
+    display: block;
+  }
+}

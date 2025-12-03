@@ -1,0 +1,59 @@
+/* A teljes autó fejléc doboz */
+.car-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
+  padding: 20px;
+  text-align: center;
+  width: 70%;
+  border-radius: 30px;
+  margin-bottom: 30px;
+}
+
+/* A fejlécen belüli fő tartalom: kép + adatok */
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Az autó képe (kör alakú) */
+.car-details-image {
+  width: 20vw;
+  height: 20vw;
+  border-radius: 50%;
+  padding: 30px;
+  object-fit: cover;
+}
+
+/* A szöveges adatok konténere */
+.text-info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+/* Alap fontméretek mobilon */
+.text-info h1 {
+  font-size: 1rem;
+}
+
+.text-info p {
+  font-size: 1rem;
+}
+
+/* Nagyobb kijelzőn nagyobb méretek */
+@media (min-width: 1020px) {
+  .car-details-image {
+    width: 15vw;
+    height: 15vw;
+  }
+  .text-info h1 {
+    font-size: 1.5rem;
+  }
+  .text-info p {
+    font-size: 1.5rem;
+  }
+}

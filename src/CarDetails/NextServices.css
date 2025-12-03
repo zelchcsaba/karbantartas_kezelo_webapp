@@ -1,0 +1,93 @@
+/* Teljes karbantartás-blokk */
+.next-services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--text);
+    padding: 20px;
+    text-align: center;
+    background-color: var(--section-bg);
+    width: 70%;
+    border-radius: 30px;
+    margin: 0 auto 30px auto;
+}
+
+/* Kártyák rács elrendezése */
+.services-grid {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 20px;
+}
+
+/* Egy kártya */
+.service-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--section-item-bg);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--section-item-border);
+}
+
+/* Ikon a bal oldalon */
+.icon {
+    font-size: 36px;
+    margin-right: 15px;
+}
+
+/* Szöveges rész */
+.text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;             
+}
+
+/* Karbantartás részletei */
+.details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Kisebb hézag a p elemek között */
+.details p {
+    margin: 2px 0;                
+}
+
+/* Státusz badge a jobb felső sarokban */
+.status-badge {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Badge színek */
+.status-badge.ok {
+    background-color: #b6ffd1;
+    color: #003b12;
+}
+
+.status-badge.warn {
+    background-color: #ffe1b6;
+    color: #7a3000;
+}
+
+.status-badge.none {
+    background-color: #cfcfcf;
+    color: #333;
+}
+
+.status-badge.expired {
+    background-color: #ffb6b6;
+    color: #7a0000;
+}

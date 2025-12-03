@@ -1,0 +1,100 @@
+/* Kattinthato terulet */
+.card-click-area {
+  cursor: pointer;
+}
+
+/* Kartya fokontenere */
+.car-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: clamp(12px, 2vw, 24px);
+  align-items: center;
+  background: var(--bg-modal);
+  padding: clamp(16px, 2vw, 28px);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(.19,.89,.32,1.28);
+  backdrop-filter: blur(4px);
+}
+
+/* Hover overlay effekt */
+.car-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top left,
+    var(--card-after-gradient),
+    transparent 65%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* Overlay megjelenik hover-kor */
+.car-card:hover::after {
+  opacity: 1;
+}
+
+/* Arnyekolas hover-kor */
+.car-card:hover {
+  box-shadow: 0 10px 28px var(--box-shadow);
+}
+
+/* Auto kep stilus */
+.car-card-image img {
+  border-radius: 50%;
+  width: clamp(120px, 15vw, 220px);
+  height: clamp(120px, 15vw, 220px);
+  object-fit: cover;
+  padding: 10px;
+  transition: transform 0.4s ease;
+}
+
+/* Kep nagyitas hover-kor */
+.car-card:hover .car-card-image img {
+  transform: scale(1.07);
+}
+
+/* Leiras kontenere */
+.car-card-description {
+  padding: 10px;
+  text-align: left;
+}
+
+/* Cim */
+.car-card-description h3 {
+  font-size: clamp(1.2rem, 2.2vw, 2rem);
+  margin-bottom: 8px;
+}
+
+/* Leiras szoveg */
+.car-card-description p {
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  color: var(--text);
+  margin: 4px 0;
+}
+
+/* Torles gomb ikon */
+.fa-trash {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 28px;
+  color: var(--trashicon);
+  cursor: pointer;
+  z-index: 5;
+  transition: color 0.3s ease;
+}
+
+/* Torles gomb hover */
+.fa-trash:hover {
+  color: var(--trashicon-hover);
+}

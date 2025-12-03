@@ -1,0 +1,97 @@
+/* Statisztika navigacios sor fokontenere */
+.stat-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--navbar-bg);
+  color: var(--text);
+}
+
+/* Bal oldali gombok kontenere */
+.stat-navbar-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* Jobb oldali elemek kontenere */
+.stat-navbar-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Autok gomb */
+.stat-home {
+  color: var(--text);
+  background-color: var(--navbar-button-color);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Statisztika gomb */
+.stat-chart {
+  color: var(--text);
+  background-color: var(--navbar-button-hover);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Autok gomb hover */
+.stat-home:hover {
+  background-color: var(--navbar-button-hover);
+}
+
+/* Tema valtoztato gomb */
+.stat-theme-toggle {
+  background: var(--button-bg);
+  color: var(--text);
+  border: none;
+  padding: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px; 
+  font-size: 1.35rem;
+
+  cursor: pointer;
+  transition: 
+    background-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+  
+  box-shadow: 0 3px 10px var(--box-shadow);
+}
+
+.stat-theme-toggle:hover {
+  background-color: var(--button-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--box-shadow);
+}
+
+.stat-theme-icon {
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.stat-theme-toggle:hover .theme-icon {
+  transform: rotate(20deg);
+}
+
+/* Nagyobb meretben betumeret noveles */
+@media (min-width: 920px) {
+  .stat-navbar-left,
+  .stat-home, .stat-chart {
+    font-size: 1.25rem;
+  }
+}

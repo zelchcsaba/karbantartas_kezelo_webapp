@@ -1,0 +1,91 @@
+/* NAVBAR2 - csak a CarDetails oldalon használt navbar */
+.navbar2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--navbar-bg);
+  color: var(--text);
+}
+
+/* Bal oldal */
+.navbar2-left {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+/* Jobb oldali elemek kontenere */
+.navbar2-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Gombok */
+.navbar2-home,
+.navbar2-chart,
+.navbar2-new {
+  color: var(--text);
+  background-color: var(--navbar-button-color);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover */
+.navbar2-home:hover,
+.navbar2-chart:hover,
+.navbar2-new:hover {
+  background-color: var(--navbar-button-hover);
+}
+
+/* Tema valtoztato gomb */
+.navbar2-theme-toggle {
+  background: var(--button-bg);
+  color: var(--text);
+  border: none;
+  padding: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px; 
+  font-size: 1.35rem;
+
+  cursor: pointer;
+  transition: 
+    background-color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+  
+  box-shadow: 0 3px 10px var(--box-shadow);
+}
+
+.navbar2-theme-toggle:hover {
+  background-color: var(--button-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--box-shadow);
+}
+
+.navbar2-theme-icon {
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.navbar2-theme-toggle:hover .theme-icon {
+  transform: rotate(20deg);
+}
+
+/* Nagyobb kijelző */
+@media (min-width: 920px) {
+  .navbar2-left,
+  .navbar2-home,
+  .navbar2-chart,
+  .navbar2-new {
+    font-size: 1.25rem;
+  }
+}

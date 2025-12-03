@@ -1,0 +1,7 @@
+/* Statisztika fokontenere */
+.stats-container {
+  width: 70%;
+  margin: 40px auto;
+  text-align: center;
+  color: var(--text);
+}

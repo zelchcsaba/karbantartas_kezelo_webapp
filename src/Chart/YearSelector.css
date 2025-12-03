@@ -1,0 +1,24 @@
+/* Ev valaszto sor */
+.year-select-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  font-size: 1.3rem;
+  
+}
+
+/* Legordulo menu */
+.year-select-row select {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+}
+
+.year-select-row select option {
+  color: #000;    /* fekete szöveg */
+  background: #fff; /* opcionális, ha szeretnéd egységes fehérre */
+}
