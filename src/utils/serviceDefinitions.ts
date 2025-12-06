@@ -1,13 +1,29 @@
 import { ServiceType } from "../types/ServiceEntry";
 
+/**
+ * Egy szerviztípus metaadatait leíró interfész.
+ *
+ * Ezek az adatok határozzák meg:
+ * - a szerviz megjelenített nevét,
+ * - hogy időszakos karbantartásnak számít-e,
+ * - és ha igen, milyen km vagy hónap intervallumban válik esedékessé.
+ */
 export interface ServiceDefinition {
-  type: ServiceType;      // Szerviz típusa
-  label: string;          // Megjelenített név
-  periodic: boolean;      // Időszakos-e
-  intervalKm?: number;    // Km alapú intervallum
-  intervalMonths?: number;// Hónap alapú intervallum
+  type: ServiceType;       // Szerviz típusa
+  label: string;           // Megjelenített név
+  periodic: boolean;       // Időszakos karbantartás-e
+  intervalKm?: number;     // Km alapú ismétlődési távolság
+  intervalMonths?: number; // Havi alapú ismétlődési ciklus
 }
 
+/**
+ * Az alkalmazásban használt szerviztípusok listája.
+ *
+ * Ezek alapján számítja a rendszer:
+ * - a következő esedékességi kilométert,
+ * - a következő várható időpontot,
+ * - valamint a figyelmeztetéseket („Hamarosan”, „Lejárt”).
+ */
 export const SERVICE_DEFINITIONS: ServiceDefinition[] = [
   {
     type: "oil",

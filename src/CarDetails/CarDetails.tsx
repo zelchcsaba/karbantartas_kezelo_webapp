@@ -8,6 +8,14 @@ import NextServices from "./NextServices";
 import ServiceList from "./ServiceList";
 import Navbar2 from "./Navbar2";
 
+/**
+ * A CarDetails komponenshez tartozó props.
+ *
+ * @property theme        Az alkalmazás jelenlegi témája.
+ * @property toggleTheme  Téma váltására szolgáló függvény.
+ * @property id           Az autó azonosítója az útvonalból.
+ * @property path         A router által használt útvonal információ.
+ */
 interface Props {
     theme: "dark" | "light";
     toggleTheme: () => void;
@@ -15,18 +23,34 @@ interface Props {
     readonly path?: string;
 }
 
-export default function CarDetails({theme, toggleTheme, id, path}: Readonly<Props>) {
-    // Autok es szervizek lekerese
+/**
+ * Egy konkrét autó részletes adatlapját megjelenítő komponens.
+ *
+ * Feladatai:
+ * - autóadatok beolvasása ID alapján,
+ * - autó szerviztörténetének lekérése,
+ * - következő esedékes szervizek kiszámítása,
+ * - új szerviz felvétele és futásteljesítmény frissítése,
+ * - részletező UI-elemek megjelenítése (fejléc, szervizlista, következő szervizek).
+ *
+ * @param props A működéshez szükséges téma és az útvonali ID.
+ * @returns Részletes autóadatokat megjelenítő JSX.
+ */
+export default function CarDetails({ theme, toggleTheme, id, path }: Readonly<Props>) {
+
+    // Autók és km-frissítés hookból
     const { cars, updateCarMileage } = useCars();
+
+    // Szervizek kezelése
     const { getByCarId, addService } = useServices();
 
-    // ID ellenorzes
+    // Ha nincs átadva ID → nem lehet részletezni
     if (!id) return <p>Nincs autó ID.</p>;
 
-    // Auto megkeresese
+    // Autó keresése ID alapján
     const car = cars.find((c) => c.id === id);
 
-    // Ha nincs auto
+    // Ha nincs ilyen autó
     if (!car)
         return (
             <div>
@@ -35,11 +59,15 @@ export default function CarDetails({theme, toggleTheme, id, path}: Readonly<Prop
             </div>
         );
 
-    // Szervizek es kovetkezo esedekessegek szamitasa
+    // Szervizlista és következő esedékességek
     const services = getByCarId(car.id);
     const next = calculateNextServices(car.mileage, services);
 
-    // Uj szerviz hozzaadasa es km frissites
+    /**
+     * Új szerviz hozzáadása:
+     * - elmentjük a szervizt,
+     * - frissítjük az autó futásteljesítményét (ha nagyobb az eddiginél).
+     */
     const handleAddService = (entry) => {
         addService(entry);
         updateCarMileage(car.id, entry.mileage);
@@ -47,7 +75,7 @@ export default function CarDetails({theme, toggleTheme, id, path}: Readonly<Prop
 
     return (
         <>
-            {/* Navigacios sor */}
+            {/* Felső navigációs sáv */}
             <Navbar2
                 theme={theme}
                 toggleTheme={toggleTheme}
@@ -56,15 +84,16 @@ export default function CarDetails({theme, toggleTheme, id, path}: Readonly<Prop
                 onAddService={handleAddService}
             />
 
-            {/* Reszletek fokontenere */}
+            {/* Főkonténer */}
             <div class="car-details-container">
-                {/* Auto fejlec */}
+
+                {/* Autó fejléce (kép + alapadatok) */}
                 <CarHeader car={car} />
 
-                {/* Kovetkezo szervizek */}
+                {/* Következő esedékes szervizek */}
                 <NextServices next={next} carMileage={car.mileage} carId={car.id} />
 
-                {/* Szervizek listaja */}
+                {/* Szerviztörténet listázása */}
                 <ServiceList services={services} />
             </div>
         </>

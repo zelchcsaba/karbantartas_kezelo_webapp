@@ -1,31 +1,52 @@
 import "../CarDetails/ErrorModal.css";
 
+/**
+ * A törlés megerősítő modal bemeneti paraméterei.
+ *
+ * @property message    A felhasználónak megjelenítendő szöveges kérdés.
+ * @property onConfirm  A felhasználó megerősíti a törlést → callback fut.
+ * @property onCancel   Kilépés a modalból törlés nélkül.
+ */
 interface Props {
   message: string;
   onConfirm: () => void;
   onCancel: () => void;
 }
 
+/**
+ * Egyszerű modalkomponens törlés megerősítésére.
+ *
+ * Feladata:
+ * - rákérdez a felhasználónál, biztos-e a törlésben,
+ * - két gombot biztosít: „Törlés” és „Mégse”,
+ * - nem végez üzleti logikát, csak vizuális módon foglalja keretbe a döntést.
+ *
+ * @param props A megjelenítendő üzenet és a gombokhoz tartozó callbackek.
+ * @returns A modal JSX struktúrája.
+ */
 export default function DeleteConfirmModal({ message, onConfirm, onCancel }: Readonly<Props>) {
   return (
-    // Attetszos hatter
+    // Áttetsző háttér, amely elhomályosítja a mögöttes tartalmat
     <div class="overlay-error">
-      {/* Modal ablak */}
+
+      {/* A modal tényleges tartalma */}
       <div class="modal-error">
-        {/* Cim */}
+
+        {/* Cím */}
         <h2 class="error-title">Törlés megerősítése</h2>
 
-        {/* Uzenet */}
+        {/* Üzenet a felhasználó felé */}
         <p class="error-message">{message}</p>
 
-        {/* Gombok kontenere */}
+        {/* Gombok tároló konténere */}
         <div class="delete-buttons">
-          {/* Torles gomb */}
+
+          {/* Törlés gomb */}
           <button class="confirm-btn" onClick={onConfirm}>
             Törlés
           </button>
 
-          {/* Megse gomb */}
+          {/* Mégse gomb */}
           <button class="cancel-btn-delete" onClick={onCancel}>
             Mégse
           </button>

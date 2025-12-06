@@ -4,16 +4,41 @@ import { useState } from "preact/hooks";
 import { AddServiceForm } from "./AddServiceForm";
 import { ServiceEntry } from "../types/ServiceEntry";
 
+/**
+ * A Navbar2 komponens bemeneti paraméterei.
+ *
+ * @property theme            Az aktuális téma (light vagy dark).
+ * @property toggleTheme      A téma váltására szolgáló függvény.
+ * @property carId            Az adott részletező oldalon megjelenített autó egyedi azonosítója.
+ * @property carMileage       Az autó aktuális futásteljesítménye.
+ * @property onAddService     Callback függvény: új szerviz bejegyzés hozzáadása.
+ */
 interface Props {
   theme: "dark" | "light";
   toggleTheme: () => void;
-  readonly carId: string;                         // Az aktuális autó ID-ja
-  readonly carMileage: number;                    // Az aktuális autó km-állása
-  readonly onAddService: (entry: ServiceEntry) => void; // Új szerviz hozzáadása
+  readonly carId: string;
+  readonly carMileage: number;
+  readonly onAddService: (entry: ServiceEntry) => void;
 }
 
+/**
+ * A CarDetails oldal felső navigációs sávja.
+ *
+ * Funkciói:
+ * - navigáció vissza a főoldalra és a statisztika oldalra,
+ * - új szerviz bejegyzés felvételének indítása,
+ * - téma váltása,
+ * - modális ablak kezelése (AddServiceForm).
+ *
+ * Ez a Navbar a részletező oldalra specializált változat,
+ * külön CSS-sel és struktúrával, hogy ne ütközzön az alap Navbar komponenssel.
+ *
+ * @param props A komponens működéséhez szükséges adatok és callbackek.
+ * @returns JSX struktúra a navigáció megjelenítéséhez.
+ */
 export default function Navbar2(props: Readonly<Props>) {
   const { theme, toggleTheme, carId, carMileage, onAddService } = props;
+
   // Modal nyitva van-e vagy sem
   const [showForm, setShowForm] = useState(false);
 
@@ -39,6 +64,7 @@ export default function Navbar2(props: Readonly<Props>) {
           Új service felvétele
         </button>
       </div>
+
       <div className="navbar2-right">
         <button className="navbar2-theme-toggle" onClick={toggleTheme}>
           {theme === "dark" ? (

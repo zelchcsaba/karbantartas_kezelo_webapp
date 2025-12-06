@@ -6,23 +6,30 @@ interface Props {
   readonly toggleTheme: () => void;
 }
 
+/**
+ * Egyszerű navigációs sáv a statisztika oldalhoz.
+ *
+ * Feladata:
+ * - navigáció az autók listájára és a statisztikai oldalra,
+ * - téma váltása.
+ */
 export default function StatNavbar({ theme, toggleTheme }: Props) {
   return (
-    // Navigacios sor fokontenere
+    // Felső navigációs sor
     <nav className="stat-navbar">
+
       {/* Bal oldali gombok */}
       <div className="stat-navbar-left">
-        {/* Autok gomb */}
         <button className="stat-home" onClick={() => route("/")}>
           Autók
         </button>
 
-        {/* Statisztika gomb */}
         <button className="stat-chart" onClick={() => route("/stats")}>
           Statisztika
         </button>
       </div>
 
+      {/* Jobb oldali téma váltó gomb */}
       <div className="stat-right">
         <button className="stat-theme-toggle" onClick={toggleTheme}>
           {theme === "dark" ? (

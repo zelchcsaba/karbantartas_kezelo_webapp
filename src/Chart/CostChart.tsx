@@ -13,12 +13,22 @@ interface Props {
   data: ChartData[];
 }
 
+/**
+ * Oszlopdiagram, amely az autók éves szervizköltségeit jeleníti meg.
+ *
+ * A komponens:
+ * - inicializál egy Chart.js grafikont,
+ * - újrarajzolja azt, ha változik az év vagy az adatlista,
+ * - törli a régi grafikont új példány létrehozása előtt (memory leak elkerülése).
+ */
 export default function CostChart({ selectedYear, data }: Readonly<Props>) {
-  // Canvas es Chart referenciak
+  // Canvas elem referenciája
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // A Chart.js példány referenciája
   const chartRef = useRef<ChartType | null>(null);
 
-  // Van-e ertelmezheto adat
+  // Van-e bármilyen költség az adott évben
   const hasData = data.some((d) => d.cost > 0);
 
   useEffect(() => {
@@ -27,12 +37,12 @@ export default function CostChart({ selectedYear, data }: Readonly<Props>) {
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
-    // Regi grafikon torlese
+    // Ha már létezik grafikon, töröljük, mielőtt újat hozunk létre
     if (chartRef.current) {
       chartRef.current.destroy();
     }
 
-    // Uj grafikon letrehozasa
+    // Új grafikon létrehozása
     chartRef.current = new Chart(ctx, {
       type: "bar",
       data: {
@@ -64,13 +74,13 @@ export default function CostChart({ selectedYear, data }: Readonly<Props>) {
       },
     });
 
-    // Cleanup
+    // Cleanup: grafikon törlése unmount előtt
     return () => {
       chartRef.current?.destroy();
     };
   }, [selectedYear, data]);
 
-  // Ha nincs adat
+  // Ha nincs adat az adott évben
   if (!hasData) {
     return <p class="no-data">Ebben az évben nincs adat.</p>;
   }

@@ -10,6 +10,20 @@ interface Props {
   onClose: () => void;
 }
 
+/**
+ * Új szervizbejegyzés hozzáadására szolgáló modal form.
+ *
+ * Feladatai:
+ * - Szerviz adatok (típus, dátum, km, leírás, költség) összegyűjtése
+ * - Validálás: a megadott km nem lehet kisebb az autó jelenlegi km-állásánál
+ * - Hibakezelés modal segítségével
+ * - A létrehozott `ServiceEntry` visszaadása a szülő komponensnek (`onSubmit`)
+ *
+ * @param carId A szervizelendő autó ID-ja
+ * @param carMileage Az autó aktuális km-állása
+ * @param onSubmit Callback, amely a kész szervizbejegyzést visszaadja
+ * @param onClose A modal bezárását végző függvény
+ */
 export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonly<Props>) {
 
   // A kiválasztott szerviz típusa
@@ -24,17 +38,22 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
   // A szerviz költsége
   const [cost, setCost] = useState(0);
 
-  // Milyen kilométernél történt a szerviz
+  // A szerviz kilométerállása
   const [mileage, setMileage] = useState(carMileage);
 
-  // Hibák kezelése, például ha túl kicsi a megadott kilométer
+  // Hibák kezelése (pl. rossz km-érték esetén)
   const [error, setError] = useState<string | null>(null);
 
-  // A form elküldése
+  /**
+   * A form beküldése.
+   *
+   * Validáció:
+   * - A megadott km érték nem lehet kisebb az autó jelenlegi km-állásánál.
+   * Ha hibás, akkor hibamodalt jelenítünk meg.
+   */
   const handleSubmit = (e: Event) => {
     e.preventDefault();
 
-    // A kilométer nem lehet kisebb, mint a jármű jelenlegi km állása
     if (mileage < carMileage) {
       setError(
         `A megadott km (${mileage}) kisebb, mint az autó aktuális km értéke (${carMileage}).`
@@ -42,7 +61,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
       return;
     }
 
-    // Az új szerviz bejegyzés összeállítása
+    // Szerviz bejegyzés összeállítása
     const entry: ServiceEntry = {
       id: crypto.randomUUID(),
       carId,
@@ -53,16 +72,13 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
       mileage,
     };
 
-    // A szerviz hozzáadása
-    onSubmit(entry);
-
-    // A modal bezárása
-    onClose();
+    onSubmit(entry); // szerviz átadása a szülőnek
+    onClose();       // modal bezárása
   };
 
   return (
     <>
-      {/* Ha hiba van, megjelenik a hiba modal */}
+      {/* Hiba esetén felugró modal */}
       {error && (
         <ErrorModal
           message={error}
@@ -70,17 +86,17 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
         />
       )}
 
-      {/* A háttér overlay */}
+      {/* Egybefüggő overlay háttér */}
       <div class="overlay">
         <div class="modal">
           <h1>Új szerviz bejegyzés</h1>
 
-          {/* A form tartalma */}
+          {/* Űrlap tartalom */}
           <form class="form-container" onSubmit={handleSubmit}>
 
             {/* Típus és dátum mezők */}
             <div class="form-row">
-              <label>Típus: <select
+              <label>Típus:<select
                   value={type}
                   onInput={(e) =>
                     setType((e.target as HTMLSelectElement).value as ServiceType)
@@ -94,7 +110,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
                 </select>
               </label>
 
-              <label>Dátum: <input
+              <label>Dátum:<input
                   type="date"
                   value={date}
                   onInput={(e) =>
@@ -106,9 +122,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
 
             {/* Kilométer és költség mezők */}
             <div class="form-row">
-              <label>
-                <span>Kilométer:</span>
-                <input
+              <label>Kilométer:<input
                   type="number"
                   value={mileage}
                   onInput={(e) =>
@@ -117,9 +131,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
                 />
               </label>
 
-              <label>
-                <span>Költség (Ft):</span>
-                <input
+              <label>Költség (Ft):<input
                   type="number"
                   value={cost}
                   onInput={(e) =>
@@ -131,7 +143,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
 
             {/* Leírás mező */}
             <label>Leírás:<textarea
-                   value={description}
+                value={description}
                 onInput={(e) =>
                   setDescription((e.target as HTMLTextAreaElement).value)
                 }
@@ -145,6 +157,7 @@ export function AddServiceForm({ carId, carMileage, onSubmit, onClose }: Readonl
                 Mégse
               </button>
             </div>
+
           </form>
         </div>
       </div>

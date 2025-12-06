@@ -10,10 +10,19 @@ interface Props {
   nextDate: string | null;
   daysLeft: number | null;
   carMileage: number;
-  carId: string;   
+  carId: string;
 }
 
-
+/**
+ * Egyetlen közelgő szerviz megjelenítéséért felelős elem.
+ *
+ * Feladatai:
+ * - kiszámolja, hogy a szerviz állapota *rendben*, *hamarosan* vagy *lejárt*,
+ * - badge színezése és felirata ennek megfelelően,
+ * - desktop push értesítés küldése (ha lejárt és még nem értesítettük a usert).
+ *
+ * @param props A szerviz állapotához szükséges adatok.
+ */
 export default function NextServiceItem({
   label,
   type,
@@ -26,14 +35,23 @@ export default function NextServiceItem({
 }: Readonly<Props>) {
 
   const noData = lastDate === null;
-  const key = `notified-${carId}-${type}`;
 
   let badgeText = "Nincs adat";
   let badgeClass = "none";
   let expired = false;
 
+  // Karbantartás státuszának meghatározása:
+  // - Először megnézzük, hogy van-e előző szervizadat (noData = false).
+  // - Ha van km-alapú határ (nextMileage):
+  //     • kmLeft ≤ 0 → már lejárt,
+  //     • kmLeft < 3000 → hamarosan esedékes,
+  //     • különben időalapú adat alapján döntünk (Rendben / Hamarosan / Lejárt).
+  // - Ha csak időalapú határ van (daysLeft):
+  //     • daysLeft < 0 → lejárt,
+  //     • daysLeft < 30 → hamarosan esedékes,
+  //     • különben rendben.
+  // Ennek eredménye a badge szövege és színe.
   if (!noData) {
-    // KM alapú
     if (nextMileage !== null) {
       const kmLeft = nextMileage - carMileage;
 
@@ -60,9 +78,7 @@ export default function NextServiceItem({
         badgeText = "Rendben";
         badgeClass = "ok";
       }
-    }
-    // Idő alapú
-    else if (daysLeft !== null) {
+    } else if (daysLeft !== null) {
       if (daysLeft < 0) {
         badgeText = "Lejárt";
         badgeClass = "expired";
@@ -77,34 +93,32 @@ export default function NextServiceItem({
     }
   }
 
-useEffect(() => {
-  const key = `notified-${carId}-${type}`;
+  /**
+   * Push értesítés küldése lejárt szerviz esetén.
+   *
+   * - csak akkor fut, ha a szerviz *lejárt*,
+   * - ha a böngésző támogatja az értesítéseket,
+   * - ha engedélyezve van,
+   * - és ha korábban még nem értesítettük a felhasználót erről a konkrét szervizről.
+   */
+  useEffect(() => {
+    const key = `notified-${carId}-${type}`;
 
-  // Ha már nem expired → engedjük meg, hogy később újra küldhesse
-  if (!expired) {
-    localStorage.removeItem(key);
-    return;
-  }
+    if (!expired) {
+      localStorage.removeItem(key);
+      return;
+    }
 
-  // Nincs notification támogatás
-  if (!("Notification" in window)) return;
+    if (!("Notification" in window)) return;
+    if (Notification.permission !== "granted") return;
+    if (localStorage.getItem(key)) return;
 
-  // Ha nincs engedély
-  if (Notification.permission !== "granted") return;
+    localStorage.setItem(key, "1");
 
-  // Ha már küldtük
-  if (localStorage.getItem(key)) return;
-
-  // Mentjük, hogy ne küldjük ismét
-  localStorage.setItem(key, "1");
-
-  // Push notification
-  new Notification("Lejárt karbantartás!", {
-    body: `${label} karbantartás esedékes.`,
-    icon: "/icon.png"
-  });
-}, [expired, carId, type, label]);
-
+    new Notification("Lejárt karbantartás!", {
+      body: `${label} karbantartás esedékes.`
+    });
+  }, [expired, carId, type, label]);
 
   return (
     <li className="service-item">
@@ -116,15 +130,12 @@ useEffect(() => {
         {!noData && (
           <div className="details">
             <p>Utolsó: {lastDate}</p>
-
             {nextMileage !== null && (
               <p>Következő csere: {nextMileage} km</p>
             )}
-
             {nextDate !== null && (
               <p>Következő várható: {nextDate}</p>
             )}
-
             {daysLeft !== null && (
               <p>Hátralévő napok: {daysLeft}</p>
             )}

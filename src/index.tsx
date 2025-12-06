@@ -8,18 +8,36 @@ import CarDetails from "./CarDetails/CarDetails";
 import { useTheme } from "./hooks/useTheme";
 import { useEffect } from "preact/hooks";
 
+/**
+ * Az alkalmazás gyökérkomponense.
+ *
+ * Ez a komponens:
+ * - inicializálja a globális témakezelést,
+ * - első belépéskor értesítési engedélyt kér a böngészőtől,
+ * - definiálja az alkalmazás útvonalait (routing),
+ * - továbbadja a témával kapcsolatos állapotot és a téma váltását kezelő függvényt.
+ *
+ * @returns A teljes Preact alkalmazás JSX reprezentációja.
+ */
 function App() {
-  // Téma állapota és váltó függvény
+  // A téma aktuális állapota és a téma váltását végző függvény (custom hookból)
   const { theme, toggleTheme } = useTheme();
 
-  // Értesítés engedélykérés első látogatáskor
+  /**
+   * Értesítési engedélykérés kezelése.
+   *
+   * - Ellenőrzi, hogy a böngésző támogatja-e az értesítéseket.
+   * - Csak egyszer (első látogatáskor) kéri az engedélyt.
+   * - localStorage segítségével jelzi, ha a felhasználó már találkozott a kéréssel.
+   */
   useEffect(() => {
+    // Ha a böngésző nem támogatja az értesítéseket, nincs teendő
     if (!("Notification" in window)) return;
 
-    // Ha már kértük, nem kérjük újra
+    // Ha már korábban történt engedélykérés, nem ismételjük meg
     if (localStorage.getItem("notification-permission-asked")) return;
 
-    // Jogosultság kérése
+    // Értesítési engedély kérése
     Notification.requestPermission().then((result) => {
       console.log("Notification permission:", result);
       localStorage.setItem("notification-permission-asked", "1");
@@ -28,21 +46,30 @@ function App() {
 
   return (
     <Router>
-      {/* Főoldal (autók listája) */}
+      {/*
+        Főoldal – az autók listáját jeleníti meg.
+        A téma állapota és a váltó függvény továbbadásra kerül.
+      */}
       <CarList
         toggleTheme={toggleTheme}
         theme={theme}
         path="/"
       />
 
-      {/* Statisztika oldal */}
+      {/*
+        Statisztikai oldal – diagramokat és összesített adatokat jelenít meg.
+        A témakezelési propok egységes megjelenést biztosítanak.
+      */}
       <StatsPage
         toggleTheme={toggleTheme}
         theme={theme}
         path="/stats"
       />
 
-      {/* Autó részletek oldal */}
+      {/*
+        Autó részletei oldal – a kiválasztott autó adatait mutatja.
+        A :id paraméter alapján tölti be a megfelelő autót.
+      */}
       <CarDetails
         path="/car/:id"
         toggleTheme={toggleTheme}
@@ -52,4 +79,5 @@ function App() {
   );
 }
 
+// Az App komponens renderelése a HTML #app gyökérelembe
 render(<App />, document.getElementById("app")!);

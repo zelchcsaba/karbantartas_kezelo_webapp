@@ -2,12 +2,29 @@ import { ServiceEntry } from "../types/ServiceEntry";
 import { SERVICE_DEFINITIONS } from "../utils/serviceDefinitions";
 import "./ServiceList.css";
 
+/**
+ * A ServiceList komponens által elvárt bemeneti paraméterek.
+ *
+ * @property services A megjelenítendő szervizbejegyzések listája.
+ */
 interface Props {
   services: ServiceEntry[];
 }
 
+/**
+ * Szervizbejegyzéseket listázó komponens.
+ *
+ * Feladata:
+ * - a szerviznapló rendezése dátum szerint (legfrissebb felül),
+ * - a szervizadatok táblázatos megjelenítése,
+ * - a szerviztípus emberi olvasású címkéjének megjelenítése
+ *   a SERVICE_DEFINITIONS alapján.
+ *
+ * @param services A felsorolásban megjelenítendő szervizbejegyzések.
+ * @returns A táblázatos karbantartáslista JSX formában.
+ */
 export default function ServiceList({ services }: Readonly<Props>) {
-  // A karbantartások dátum szerinti rendezése (legújabb elöl)
+  // A karbantartások rendezése időrend szerint (új → régi)
   const sorted = [...services].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -17,7 +34,7 @@ export default function ServiceList({ services }: Readonly<Props>) {
       <h2>Karbantartások</h2>
 
       <div class="table">
-        {/* Fejléc */}
+        {/* Táblázat fejléce */}
         <div class="table-row table-header">
           <div class="cell">Dátum</div>
           <div class="cell">Típus</div>
@@ -26,8 +43,9 @@ export default function ServiceList({ services }: Readonly<Props>) {
           <div class="cell">Költség (Ft)</div>
         </div>
 
-        {/* Táblázat sorai */}
+        {/* Rendezett lista sorainak megjelenítése */}
         {sorted.map((s) => {
+          // A szerviz típus leírásának lekérése
           const def = SERVICE_DEFINITIONS.find((d) => d.type === s.type);
 
           return (

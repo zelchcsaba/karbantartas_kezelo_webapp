@@ -12,16 +12,31 @@ interface Props {
   path: string;
 }
 
+/**
+ * A statisztikai oldal fő komponense.
+ *
+ * Feladata:
+ * - betölti az autók és szervizbejegyzések adatait,
+ * - összesíti az adott évre vonatkozó szervizköltségeket,
+ * - grafikonon jeleníti meg az autók éves költségeit,
+ * - biztosít egy évválasztó UI elemet.
+ *
+ * @param props Téma, téma-váltó és routerhez szükséges adatok.
+ */
 export default function Statistics({theme, toggleTheme, path}: Readonly<Props>) {
-  // Autok es szervizek lekerese
+  // Autók és szervizek betöltése a custom hookokból
   const { cars } = useCars();
   const { services } = useServices();
 
-  // Aktualis ev es kivalasztott ev allapota
+  // Aktuális év és kiválasztott év állapota
   const currentYear = new Date().getFullYear();
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
-  // Eves koltsegek szamitasa autokra
+  /**
+   * Az adott évhez tartozó teljes szervizköltség kiszámítása minden autóra.
+   * - A szűrés év és autó ID alapján történik.
+   * - A költségek összeadása reduce segítségével.
+   */
   const yearlyData = cars.map((car) => {
     const totalCost = services
       .filter(
@@ -39,20 +54,19 @@ export default function Statistics({theme, toggleTheme, path}: Readonly<Props>) 
 
   return (
     <div>
-      {/* Navigacios sor */}
+      {/* Felső navigációs sáv */}
       <StatNavbar theme={theme} toggleTheme={toggleTheme}/>
 
-      {/* Statisztika fokontenere */}
       <div class="stats-container">
         <h1>Éves szervizköltségek autók szerint</h1>
 
-        {/* Ev valaszto */}
+        {/* Év kiválasztó komponens */}
         <YearSelector
           selectedYear={selectedYear}
           onYearChange={setSelectedYear}
         />
 
-        {/* Koltseg grafikon */}
+        {/* Költségek megjelenítése grafikonon */}
         <CostChart
           selectedYear={selectedYear}
           data={yearlyData}
